@@ -1,53 +1,30 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
-import { X, Plus, Minus, Check, Coffee, Sparkles, MessageSquare } from 'lucide-react';
+import React, { useState } from 'react';
+import { X, Plus, Minus, Check, MessageSquare } from 'lucide-react';
 import { useOrder } from '../context/OrderContext';
-import { CustomizationOption } from '../types';
+import { CustomizationOption, MenuItem } from '../types';
 
-export const ItemDetailModal: React.FC = () => {
-  const { customizingItem, setCustomizingItem, addToCart } = useOrder();
+const ItemDetailModalContent: React.FC<{ item: MenuItem }> = ({ item }) => {
+  const { setCustomizingItem, addToCart } = useOrder();
+
+  const cust = item.customizations;
 
   const [quantity, setQuantity] = useState(1);
-  const [selectedSize, setSelectedSize] = useState<CustomizationOption | undefined>(undefined);
-  const [selectedMilk, setSelectedMilk] = useState<CustomizationOption | undefined>(undefined);
-  const [selectedSweetness, setSelectedSweetness] = useState<CustomizationOption | undefined>(undefined);
+  const [selectedSize, setSelectedSize] = useState<CustomizationOption | undefined>(
+    cust?.sizes && cust.sizes.length > 0 ? cust.sizes[0] : undefined
+  );
+  const [selectedMilk, setSelectedMilk] = useState<CustomizationOption | undefined>(
+    cust?.milkOptions && cust.milkOptions.length > 0 ? cust.milkOptions[0] : undefined
+  );
+  const [selectedSweetness, setSelectedSweetness] = useState<CustomizationOption | undefined>(
+    cust?.sweetnessOptions && cust.sweetnessOptions.length > 0 ? cust.sweetnessOptions[0] : undefined
+  );
   const [selectedAddons, setSelectedAddons] = useState<CustomizationOption[]>([]);
   const [specialNotes, setSpecialNotes] = useState('');
 
-  // Reset defaults when modal opens
-  useEffect(() => {
-    if (customizingItem) {
-      setQuantity(1);
-      setSpecialNotes('');
-
-      const cust = customizingItem.customizations;
-      if (cust?.sizes && cust.sizes.length > 0) {
-        setSelectedSize(cust.sizes[0]);
-      } else {
-        setSelectedSize(undefined);
-      }
-
-      if (cust?.milkOptions && cust.milkOptions.length > 0) {
-        setSelectedMilk(cust.milkOptions[0]);
-      } else {
-        setSelectedMilk(undefined);
-      }
-
-      if (cust?.sweetnessOptions && cust.sweetnessOptions.length > 0) {
-        setSelectedSweetness(cust.sweetnessOptions[0]);
-      } else {
-        setSelectedSweetness(undefined);
-      }
-
-      setSelectedAddons([]);
-    }
-  }, [customizingItem]);
-
-  if (!customizingItem) return null;
-
   // Calculate live total price
-  let unitPrice = customizingItem.price;
+  let unitPrice = item.price;
   if (selectedSize) unitPrice += selectedSize.price;
   if (selectedMilk) unitPrice += selectedMilk.price;
   if (selectedSweetness) unitPrice += selectedSweetness.price;
@@ -67,7 +44,7 @@ export const ItemDetailModal: React.FC = () => {
 
   const handleAddToCart = () => {
     addToCart(
-      customizingItem,
+      item,
       quantity,
       selectedSize,
       selectedMilk,
@@ -77,10 +54,8 @@ export const ItemDetailModal: React.FC = () => {
     );
   };
 
-  const cust = customizingItem.customizations;
-
   return (
-    <div className="fixed inset-0 z-50 flex items-end sm:items-center justify-center p-0 sm:p-4 bg-black/70 backdrop-blur-sm animate-fade-in">
+    <div className="fixed inset-0 z-100 flex items-end sm:items-center justify-center p-0 sm:p-4 bg-black/75 backdrop-blur-sm animate-fade-in">
       
       {/* Click outside backdrop */}
       <div
@@ -89,58 +64,58 @@ export const ItemDetailModal: React.FC = () => {
       />
 
       {/* Main Bottom Sheet / Modal Frame */}
-      <div className="relative w-full max-w-xl bg-white sm:rounded-3xl rounded-t-3xl shadow-2xl overflow-hidden flex flex-col max-h-[90vh] z-10 animate-slide-up">
+      <div className="relative w-full max-w-xl bg-white sm:rounded-3xl rounded-t-3xl shadow-2xl overflow-hidden flex flex-col max-h-[82dvh] sm:max-h-[90vh] z-10 animate-slide-up mb-0 sm:mb-auto">
         
-        {/* Mobile Drag Pill */}
-        <div className="sm:hidden w-full flex justify-center py-2 bg-white">
+        {/* Mobile Drag Handle */}
+        <div className="sm:hidden w-full flex justify-center py-2 bg-white shrink-0">
           <div className="w-12 h-1.5 bg-slate-300 rounded-full" />
         </div>
 
         {/* Modal Header */}
-        <div className="relative h-44 sm:h-52 overflow-hidden bg-slate-900 shrink-0">
+        <div className="relative h-36 sm:h-52 overflow-hidden bg-slate-900 shrink-0">
           <img
-            src={customizingItem.image}
-            alt={customizingItem.title}
+            src={item.image}
+            alt={item.title}
             className="w-full h-full object-cover opacity-90"
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent" />
+          <div className="absolute inset-0 bg-linear-to-t from-black/80 via-black/30 to-transparent" />
 
           {/* Close Button */}
           <button
             onClick={() => setCustomizingItem(null)}
-            className="absolute top-4 right-4 bg-black/60 hover:bg-black text-white p-2 rounded-full backdrop-blur-md transition"
+            className="absolute top-3 right-3 bg-black/60 hover:bg-black text-white p-2 rounded-full backdrop-blur-md transition"
           >
             <X className="w-5 h-5" />
           </button>
 
           {/* Item Info Header */}
-          <div className="absolute bottom-4 left-4 right-4 text-white">
-            <span className="text-[10px] uppercase font-bold tracking-widest text-[#C5A059] bg-black/60 px-2 py-0.5 rounded">
-              {customizingItem.category}
+          <div className="absolute bottom-3 left-4 right-4 text-white">
+            <span className="text-[10px] uppercase font-bold tracking-widest text-[#C5A059] bg-black/70 px-2 py-0.5 rounded">
+              {item.category}
             </span>
-            <h2 className="text-xl sm:text-2xl font-bold mt-1 text-white leading-tight">
-              {customizingItem.title}
+            <h2 className="text-lg sm:text-2xl font-bold mt-1 text-white leading-tight">
+              {item.title}
             </h2>
-            {customizingItem.titleAr && (
-              <p className="text-xs text-slate-300 font-serif">{customizingItem.titleAr}</p>
+            {item.titleAr && (
+              <p className="text-xs text-slate-300 font-arabic">{item.titleAr}</p>
             )}
           </div>
         </div>
 
         {/* Customization Options Scrollable Body */}
-        <div className="p-5 sm:p-6 overflow-y-auto space-y-6 flex-1">
+        <div className="p-4 sm:p-6 overflow-y-auto space-y-5 flex-1 pb-6">
           
           <p className="text-slate-600 text-xs sm:text-sm leading-relaxed">
-            {customizingItem.description}
+            {item.description}
           </p>
 
           {/* Size Options */}
           {cust?.sizes && cust.sizes.length > 0 && (
-            <div className="space-y-2.5">
-              <label className="text-xs uppercase font-bold text-[#0A0D1A] tracking-wider block">
+            <div className="space-y-2">
+              <label className="text-xs uppercase font-extrabold text-[#00022C] tracking-wider block">
                 Select Size
               </label>
-              <div className="grid grid-cols-2 gap-2.5">
+              <div className="grid grid-cols-2 gap-2">
                 {cust.sizes.map((size) => {
                   const isSelected = selectedSize?.id === size.id;
                   return (
@@ -149,7 +124,7 @@ export const ItemDetailModal: React.FC = () => {
                       onClick={() => setSelectedSize(size)}
                       className={`flex items-center justify-between p-3 rounded-xl border text-xs font-semibold transition ${
                         isSelected
-                          ? 'border-[#0A0D1A] bg-[#0A0D1A] text-white shadow-sm'
+                          ? 'border-[#00022C] bg-[#00022C] text-white shadow-sm'
                           : 'border-slate-200 bg-slate-50 text-slate-700 hover:bg-slate-100'
                       }`}
                     >
@@ -166,8 +141,8 @@ export const ItemDetailModal: React.FC = () => {
 
           {/* Milk Options */}
           {cust?.milkOptions && cust.milkOptions.length > 0 && (
-            <div className="space-y-2.5">
-              <label className="text-xs uppercase font-bold text-[#0A0D1A] tracking-wider block">
+            <div className="space-y-2">
+              <label className="text-xs uppercase font-extrabold text-[#00022C] tracking-wider block">
                 Choice of Milk
               </label>
               <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
@@ -179,7 +154,7 @@ export const ItemDetailModal: React.FC = () => {
                       onClick={() => setSelectedMilk(milk)}
                       className={`flex items-center justify-between p-2.5 rounded-xl border text-xs font-medium transition ${
                         isSelected
-                          ? 'border-[#0A0D1A] bg-[#0A0D1A] text-white'
+                          ? 'border-[#00022C] bg-[#00022C] text-white'
                           : 'border-slate-200 bg-slate-50 text-slate-700 hover:bg-slate-100'
                       }`}
                     >
@@ -198,8 +173,8 @@ export const ItemDetailModal: React.FC = () => {
 
           {/* Sweetness Options */}
           {cust?.sweetnessOptions && cust.sweetnessOptions.length > 0 && (
-            <div className="space-y-2.5">
-              <label className="text-xs uppercase font-bold text-[#0A0D1A] tracking-wider block">
+            <div className="space-y-2">
+              <label className="text-xs uppercase font-extrabold text-[#00022C] tracking-wider block">
                 Sweetness Level
               </label>
               <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
@@ -211,7 +186,7 @@ export const ItemDetailModal: React.FC = () => {
                       onClick={() => setSelectedSweetness(sw)}
                       className={`p-2.5 rounded-xl border text-xs font-medium text-center transition ${
                         isSelected
-                          ? 'border-[#0A0D1A] bg-[#0A0D1A] text-white'
+                          ? 'border-[#00022C] bg-[#00022C] text-white'
                           : 'border-slate-200 bg-slate-50 text-slate-700 hover:bg-slate-100'
                       }`}
                     >
@@ -225,8 +200,8 @@ export const ItemDetailModal: React.FC = () => {
 
           {/* Add-ons Checklist */}
           {cust?.addOns && cust.addOns.length > 0 && (
-            <div className="space-y-2.5">
-              <label className="text-xs uppercase font-bold text-[#0A0D1A] tracking-wider block">
+            <div className="space-y-2">
+              <label className="text-xs uppercase font-extrabold text-[#00022C] tracking-wider block">
                 Add-ons & Extra Flavors
               </label>
               <div className="space-y-2">
@@ -238,7 +213,7 @@ export const ItemDetailModal: React.FC = () => {
                       onClick={() => toggleAddon(addon)}
                       className={`w-full flex items-center justify-between p-3 rounded-xl border text-xs font-semibold transition ${
                         isSelected
-                          ? 'border-[#C5A059] bg-[#FAF6EE] text-[#0A0D1A]'
+                          ? 'border-[#C5A059] bg-[#FAF6EE] text-[#00022C]'
                           : 'border-slate-200 bg-white text-slate-700 hover:bg-slate-50'
                       }`}
                     >
@@ -246,7 +221,7 @@ export const ItemDetailModal: React.FC = () => {
                         <div
                           className={`w-4 h-4 rounded flex items-center justify-center border ${
                             isSelected
-                              ? 'bg-[#0A0D1A] border-[#0A0D1A] text-amber-300'
+                              ? 'bg-[#00022C] border-[#00022C] text-[#C5A059]'
                               : 'border-slate-300 bg-white'
                           }`}
                         >
@@ -264,7 +239,7 @@ export const ItemDetailModal: React.FC = () => {
 
           {/* Special Instructions */}
           <div className="space-y-2">
-            <label className="text-xs uppercase font-bold text-[#0A0D1A] tracking-wider flex items-center gap-1.5">
+            <label className="text-xs uppercase font-extrabold text-[#00022C] tracking-wider flex items-center gap-1.5">
               <MessageSquare className="w-3.5 h-3.5 text-slate-400" />
               <span>Special Barista Instructions</span>
             </label>
@@ -273,41 +248,41 @@ export const ItemDetailModal: React.FC = () => {
               placeholder="e.g., Extra hot, light foam, separate lid..."
               value={specialNotes}
               onChange={(e) => setSpecialNotes(e.target.value)}
-              className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2.5 text-xs text-slate-800 placeholder:text-slate-400 focus:outline-none focus:border-[#0A0D1A]"
+              className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2.5 text-xs text-slate-800 placeholder:text-slate-400 focus:outline-none focus:border-[#00022C]"
             />
           </div>
 
         </div>
 
         {/* Footer Action Bar */}
-        <div className="p-4 sm:p-5 bg-slate-50 border-t border-slate-200 flex items-center justify-between gap-4 shrink-0">
+        <div className="p-3.5 sm:p-5 pb-6 sm:pb-5 bg-white border-t border-slate-200 flex items-center justify-between gap-3 shrink-0 shadow-lg z-20">
           
           {/* Quantity Selector */}
-          <div className="flex items-center bg-white border border-slate-300 rounded-full p-1 shadow-sm">
+          <div className="flex items-center bg-slate-100 border border-slate-200 rounded-full p-1 shadow-inner">
             <button
               onClick={() => setQuantity((q) => Math.max(1, q - 1))}
-              className="w-8 h-8 rounded-full flex items-center justify-center text-slate-700 hover:bg-slate-100 transition active:scale-95"
+              className="w-7 h-7 sm:w-8 sm:h-8 rounded-full flex items-center justify-center text-slate-700 hover:bg-slate-200 transition active:scale-95"
             >
-              <Minus className="w-4 h-4" />
+              <Minus className="w-3.5 h-3.5" />
             </button>
-            <span className="w-8 text-center text-sm font-bold font-mono text-[#0A0D1A]">
+            <span className="w-7 text-center text-xs sm:text-sm font-bold font-mono text-[#00022C]">
               {quantity}
             </span>
             <button
               onClick={() => setQuantity((q) => q + 1)}
-              className="w-8 h-8 rounded-full flex items-center justify-center text-slate-700 hover:bg-slate-100 transition active:scale-95"
+              className="w-7 h-7 sm:w-8 sm:h-8 rounded-full flex items-center justify-center text-slate-700 hover:bg-slate-200 transition active:scale-95"
             >
-              <Plus className="w-4 h-4" />
+              <Plus className="w-3.5 h-3.5" />
             </button>
           </div>
 
           {/* Submit Action Button */}
           <button
             onClick={handleAddToCart}
-            className="flex-1 flex items-center justify-between bg-[#0A0D1A] hover:bg-[#161B33] text-white font-semibold text-xs sm:text-sm py-3.5 px-5 rounded-full shadow-lg transition active:scale-95"
+            className="flex-1 flex items-center justify-between bg-[#00022C] hover:bg-[#11174D] text-white font-bold text-xs sm:text-sm py-3 sm:py-3.5 px-4 sm:px-5 rounded-full shadow-lg transition active:scale-95"
           >
             <span>Add to Pickup Order</span>
-            <span className="font-mono text-[#C5A059] font-bold text-sm">
+            <span className="font-mono text-[#C5A059] font-extrabold text-xs sm:text-sm">
               QAR {totalPrice}
             </span>
           </button>
@@ -317,4 +292,12 @@ export const ItemDetailModal: React.FC = () => {
       </div>
     </div>
   );
+};
+
+export const ItemDetailModal: React.FC = () => {
+  const { customizingItem } = useOrder();
+
+  if (!customizingItem) return null;
+
+  return <ItemDetailModalContent key={customizingItem.id} item={customizingItem} />;
 };

@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { X, Plus, Minus, Check, MessageSquare } from 'lucide-react';
 import { useOrder } from '../context/OrderContext';
 import { CustomizationOption, MenuItem } from '../types';
@@ -22,6 +22,14 @@ const ItemDetailModalContent: React.FC<{ item: MenuItem }> = ({ item }) => {
   );
   const [selectedAddons, setSelectedAddons] = useState<CustomizationOption[]>([]);
   const [specialNotes, setSpecialNotes] = useState('');
+
+  // Prevent background body scrolling while modal is open
+  useEffect(() => {
+    document.body.style.overflow = 'hidden';
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, []);
 
   // Calculate live total price
   let unitPrice = item.price;
@@ -55,7 +63,7 @@ const ItemDetailModalContent: React.FC<{ item: MenuItem }> = ({ item }) => {
   };
 
   return (
-    <div className="fixed inset-0 z-100 flex items-end sm:items-center justify-center p-0 sm:p-4 bg-black/75 backdrop-blur-sm animate-fade-in">
+    <div className="fixed inset-0 z-100 flex items-end sm:items-center justify-center p-0 sm:p-4 bg-black/75 backdrop-blur-sm animate-fade-in touch-none">
       
       {/* Click outside backdrop */}
       <div
@@ -64,7 +72,7 @@ const ItemDetailModalContent: React.FC<{ item: MenuItem }> = ({ item }) => {
       />
 
       {/* Main Bottom Sheet / Modal Frame */}
-      <div className="relative w-full max-w-xl bg-white sm:rounded-3xl rounded-t-3xl shadow-2xl overflow-hidden flex flex-col max-h-[82dvh] sm:max-h-[90vh] z-10 animate-slide-up mb-0 sm:mb-auto">
+      <div className="relative w-full max-w-xl bg-white sm:rounded-3xl rounded-t-3xl shadow-2xl overflow-hidden flex flex-col max-h-[82dvh] sm:max-h-[90vh] z-10 animate-slide-up mb-0 sm:mb-auto pointer-events-auto">
         
         {/* Mobile Drag Handle */}
         <div className="sm:hidden w-full flex justify-center py-2 bg-white shrink-0">
@@ -102,8 +110,8 @@ const ItemDetailModalContent: React.FC<{ item: MenuItem }> = ({ item }) => {
           </div>
         </div>
 
-        {/* Customization Options Scrollable Body */}
-        <div className="p-4 sm:p-6 overflow-y-auto space-y-5 flex-1 pb-6">
+        {/* Customization Options Scrollable Body - with overscroll-contain to stop scroll chaining */}
+        <div className="p-4 sm:p-6 overflow-y-auto overscroll-contain space-y-5 flex-1 pb-6">
           
           <p className="text-slate-600 text-xs sm:text-sm leading-relaxed">
             {item.description}

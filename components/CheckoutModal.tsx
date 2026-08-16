@@ -1,9 +1,8 @@
 'use client';
 
-import React, { useState } from 'react';
-import { X, MapPin, Clock, User, Phone, Mail, ShieldCheck, CheckCircle2, ArrowRight } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { X, MapPin, Clock, User, Phone, ShieldCheck, CheckCircle2, ArrowRight } from 'lucide-react';
 import { useOrder } from '../context/OrderContext';
-import { BRANCHES } from '../data/mockData';
 
 export const CheckoutModal: React.FC = () => {
   const {
@@ -12,7 +11,6 @@ export const CheckoutModal: React.FC = () => {
     cart,
     cartTotal,
     selectedBranch,
-    setSelectedBranch,
     customerInfo,
     setCustomerInfo,
     placeOrder,
@@ -21,6 +19,16 @@ export const CheckoutModal: React.FC = () => {
 
   const [pickupTimeOption, setPickupTimeOption] = useState<'asap' | '15min' | '30min' | 'scheduled'>('asap');
   const [isSubmitting, setIsSubmitting] = useState(false);
+
+  // Prevent background body scrolling while checkout modal is open
+  useEffect(() => {
+    if (isCheckoutOpen) {
+      document.body.style.overflow = 'hidden';
+      return () => {
+        document.body.style.overflow = '';
+      };
+    }
+  }, [isCheckoutOpen]);
 
   if (!isCheckoutOpen) return null;
 
@@ -48,16 +56,16 @@ export const CheckoutModal: React.FC = () => {
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/75 backdrop-blur-sm animate-fade-in">
+    <div className="fixed inset-0 z-100 flex items-center justify-center p-4 bg-black/75 backdrop-blur-sm animate-fade-in touch-none">
       
       {/* Backdrop click to dismiss */}
       <div className="absolute inset-0" onClick={() => setIsCheckoutOpen(false)} />
 
       {/* Main Checkout Modal Container */}
-      <div className="relative w-full max-w-2xl bg-white rounded-3xl shadow-2xl overflow-hidden flex flex-col max-h-[90vh] z-10 animate-slide-up">
+      <div className="relative w-full max-w-2xl bg-white rounded-3xl shadow-2xl overflow-hidden flex flex-col max-h-[90vh] z-10 animate-slide-up pointer-events-auto">
         
         {/* Header */}
-        <div className="p-5 sm:p-6 bg-[#0A0D1A] text-white flex items-center justify-between border-b border-[#1E2540]">
+        <div className="p-5 sm:p-6 bg-[#00022C] text-white flex items-center justify-between border-b border-[#141A45]">
           <div>
             <span className="text-[10px] uppercase font-bold tracking-widest text-[#C5A059]">STORE PICKUP ONLY</span>
             <h2 className="text-xl font-bold">Checkout & Pickup Request</h2>
@@ -70,20 +78,20 @@ export const CheckoutModal: React.FC = () => {
           </button>
         </div>
 
-        {/* Scrollable Form Body */}
-        <form onSubmit={handleSubmitOrder} className="p-5 sm:p-6 overflow-y-auto space-y-6 flex-1">
+        {/* Scrollable Form Body with overscroll-contain */}
+        <form onSubmit={handleSubmitOrder} className="p-5 sm:p-6 overflow-y-auto overscroll-contain space-y-6 flex-1 pb-8">
           
           {/* Step 1: Pickup Location Card */}
           <div className="bg-[#FAF8F5] border border-[#E8E2D5] rounded-2xl p-4 space-y-3">
             <div className="flex items-center justify-between">
-              <div className="flex items-center gap-2 text-xs uppercase font-bold text-[#0A0D1A] tracking-wider">
+              <div className="flex items-center gap-2 text-xs uppercase font-bold text-[#00022C] tracking-wider">
                 <MapPin className="w-4 h-4 text-[#C5A059]" />
                 <span>1. Select Pickup Store Location</span>
               </div>
               <button
                 type="button"
                 onClick={() => setIsBranchesOpen(true)}
-                className="text-xs font-semibold text-[#0A0D1A] hover:underline"
+                className="text-xs font-semibold text-[#00022C] hover:underline"
               >
                 Change Store
               </button>
@@ -91,7 +99,7 @@ export const CheckoutModal: React.FC = () => {
 
             <div className="bg-white p-3.5 rounded-xl border border-[#DCD5C6] flex items-center justify-between">
               <div>
-                <h4 className="font-bold text-[#0A0D1A] text-sm">{selectedBranch.name}</h4>
+                <h4 className="font-bold text-[#00022C] text-sm">{selectedBranch.name}</h4>
                 <p className="text-xs text-slate-500">{selectedBranch.address}</p>
                 <p className="text-[11px] text-emerald-600 font-medium mt-0.5">Open Today: {selectedBranch.hours}</p>
               </div>
@@ -101,7 +109,7 @@ export const CheckoutModal: React.FC = () => {
 
           {/* Step 2: Estimated Pickup Time */}
           <div className="space-y-3">
-            <label className="flex items-center gap-2 text-xs uppercase font-bold text-[#0A0D1A] tracking-wider">
+            <label className="flex items-center gap-2 text-xs uppercase font-bold text-[#00022C] tracking-wider">
               <Clock className="w-4 h-4 text-[#C5A059]" />
               <span>2. Estimated Pickup Time</span>
             </label>
@@ -112,7 +120,7 @@ export const CheckoutModal: React.FC = () => {
                 onClick={() => setPickupTimeOption('asap')}
                 className={`p-3 rounded-xl border text-left text-xs transition ${
                   pickupTimeOption === 'asap'
-                    ? 'border-[#0A0D1A] bg-[#0A0D1A] text-white font-semibold shadow-sm'
+                    ? 'border-[#00022C] bg-[#00022C] text-white font-semibold shadow-sm'
                     : 'border-slate-200 bg-slate-50 text-slate-700 hover:bg-slate-100'
                 }`}
               >
@@ -127,7 +135,7 @@ export const CheckoutModal: React.FC = () => {
                 onClick={() => setPickupTimeOption('15min')}
                 className={`p-3 rounded-xl border text-left text-xs transition ${
                   pickupTimeOption === '15min'
-                    ? 'border-[#0A0D1A] bg-[#0A0D1A] text-white font-semibold shadow-sm'
+                    ? 'border-[#00022C] bg-[#00022C] text-white font-semibold shadow-sm'
                     : 'border-slate-200 bg-slate-50 text-slate-700 hover:bg-slate-100'
                 }`}
               >
@@ -142,7 +150,7 @@ export const CheckoutModal: React.FC = () => {
                 onClick={() => setPickupTimeOption('30min')}
                 className={`p-3 rounded-xl border text-left text-xs transition ${
                   pickupTimeOption === '30min'
-                    ? 'border-[#0A0D1A] bg-[#0A0D1A] text-white font-semibold shadow-sm'
+                    ? 'border-[#00022C] bg-[#00022C] text-white font-semibold shadow-sm'
                     : 'border-slate-200 bg-slate-50 text-slate-700 hover:bg-slate-100'
                 }`}
               >
@@ -157,7 +165,7 @@ export const CheckoutModal: React.FC = () => {
                 onClick={() => setPickupTimeOption('scheduled')}
                 className={`p-3 rounded-xl border text-left text-xs transition ${
                   pickupTimeOption === 'scheduled'
-                    ? 'border-[#0A0D1A] bg-[#0A0D1A] text-white font-semibold shadow-sm'
+                    ? 'border-[#00022C] bg-[#00022C] text-white font-semibold shadow-sm'
                     : 'border-slate-200 bg-slate-50 text-slate-700 hover:bg-slate-100'
                 }`}
               >
@@ -171,7 +179,7 @@ export const CheckoutModal: React.FC = () => {
 
           {/* Step 3: Customer Details */}
           <div className="space-y-3">
-            <label className="flex items-center gap-2 text-xs uppercase font-bold text-[#0A0D1A] tracking-wider">
+            <label className="flex items-center gap-2 text-xs uppercase font-bold text-[#00022C] tracking-wider">
               <User className="w-4 h-4 text-[#C5A059]" />
               <span>3. Customer Contact Details</span>
             </label>
@@ -186,7 +194,7 @@ export const CheckoutModal: React.FC = () => {
                     required
                     value={customerInfo.name}
                     onChange={(e) => setCustomerInfo({ ...customerInfo, name: e.target.value })}
-                    className="w-full bg-slate-50 border border-slate-200 rounded-xl pl-9 pr-3 py-2 text-xs text-slate-800 focus:outline-none focus:border-[#0A0D1A]"
+                    className="w-full bg-slate-50 border border-slate-200 rounded-xl pl-9 pr-3 py-2 text-xs text-slate-800 focus:outline-none focus:border-[#00022C]"
                     placeholder="Enter your name"
                   />
                 </div>
@@ -201,7 +209,7 @@ export const CheckoutModal: React.FC = () => {
                     required
                     value={customerInfo.phone}
                     onChange={(e) => setCustomerInfo({ ...customerInfo, phone: e.target.value })}
-                    className="w-full bg-slate-50 border border-slate-200 rounded-xl pl-9 pr-3 py-2 text-xs text-slate-800 focus:outline-none focus:border-[#0A0D1A]"
+                    className="w-full bg-slate-50 border border-slate-200 rounded-xl pl-9 pr-3 py-2 text-xs text-slate-800 focus:outline-none focus:border-[#00022C]"
                     placeholder="+974 5512 3456"
                   />
                 </div>
@@ -209,7 +217,7 @@ export const CheckoutModal: React.FC = () => {
             </div>
           </div>
 
-          {/* Step 4: No Online Payment Method Notice */}
+          {/* Step 4: Payment Policy */}
           <div className="bg-amber-50 border border-amber-200 rounded-2xl p-4 space-y-2">
             <div className="flex items-center gap-2 font-bold text-amber-900 text-xs uppercase tracking-wider">
               <ShieldCheck className="w-4 h-4 text-[#C5A059]" />
@@ -220,11 +228,11 @@ export const CheckoutModal: React.FC = () => {
             </p>
           </div>
 
-          {/* Order Summary Item Cards */}
+          {/* Order Summary */}
           <div className="space-y-2 border-t border-slate-100 pt-4">
             <div className="flex justify-between text-xs font-bold text-slate-700">
               <span>Order Items ({cart.length})</span>
-              <span className="font-mono text-[#0A0D1A]">QAR {cartTotal}</span>
+              <span className="font-mono text-[#00022C]">QAR {cartTotal}</span>
             </div>
             <div className="max-h-28 overflow-y-auto space-y-1.5 pr-1">
               {cart.map((i) => (
@@ -239,7 +247,7 @@ export const CheckoutModal: React.FC = () => {
           <button
             type="submit"
             disabled={isSubmitting}
-            className="w-full flex items-center justify-center gap-2 bg-[#0A0D1A] hover:bg-[#161B33] text-white font-bold text-sm py-4 px-6 rounded-full shadow-xl transition active:scale-95 disabled:opacity-50"
+            className="w-full flex items-center justify-center gap-2 bg-[#00022C] hover:bg-[#11174D] text-white font-bold text-sm py-4 px-6 rounded-full shadow-xl transition active:scale-95 disabled:opacity-50"
           >
             {isSubmitting ? (
               <span>Sending Order to Barista POS...</span>

@@ -74,7 +74,7 @@ export const MenuSection: React.FC = () => {
             placeholder="Search coffee, pastries, sandwiches..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full bg-white border border-[#DCD5C6] rounded-full pl-11 pr-10 py-3 text-xs sm:text-sm text-[#0A0D1A] placeholder:text-slate-400 focus:outline-none focus:border-[#0A0D1A] shadow-sm transition font-medium"
+            className="w-full bg-white border border-[#DCD5C6] rounded-full pl-11 pr-10 py-3 text-xs sm:text-sm text-[#00022C] placeholder:text-slate-400 focus:outline-none focus:border-[#00022C] shadow-sm transition font-medium"
           />
           {searchQuery && (
             <button
@@ -86,7 +86,7 @@ export const MenuSection: React.FC = () => {
           )}
         </div>
 
-        {/* Category Horizontal Filter Bar */}
+        {/* Category Horizontal Filter Bar - Styled in Brand #00022C Navy */}
         <div className="flex items-center gap-2 overflow-x-auto pb-1 no-scrollbar scroll-smooth">
           {CATEGORIES.map((cat) => {
             const isActive = selectedCategory === cat.id;
@@ -96,7 +96,7 @@ export const MenuSection: React.FC = () => {
                 onClick={() => setSelectedCategory(cat.id as CategoryId)}
                 className={`px-4 py-2 rounded-full text-xs font-bold whitespace-nowrap transition-all active:scale-95 shrink-0 tracking-wide ${
                   isActive
-                    ? 'bg-[#0A0D1A] text-white shadow-md font-extrabold ring-2 ring-[#C5A059]/40'
+                    ? 'bg-[#00022C] text-white shadow-md font-extrabold ring-2 ring-[#C5A059]/50'
                     : 'bg-white text-slate-700 hover:bg-[#F2ECE1] border border-[#E0D8C8]'
                 }`}
               >
@@ -108,7 +108,7 @@ export const MenuSection: React.FC = () => {
 
         {/* Active Category Header */}
         <div className="pt-2 flex items-center justify-between">
-          <h2 className="text-base sm:text-lg font-black text-[#0A0D1A] tracking-tight">
+          <h2 className="text-base sm:text-lg font-black text-[#00022C] tracking-tight">
             {activeCategoryName}
           </h2>
           <span className="text-xs text-slate-400 font-medium">
@@ -120,14 +120,14 @@ export const MenuSection: React.FC = () => {
         {filteredItems.length === 0 ? (
           <div className="text-center py-12 bg-white rounded-3xl border border-[#E8E2D5] p-6 space-y-2">
             <Coffee className="w-10 h-10 text-slate-300 mx-auto" />
-            <h3 className="text-sm font-bold text-[#0A0D1A]">No Items Found</h3>
+            <h3 className="text-sm font-bold text-[#00022C]">No Items Found</h3>
             <p className="text-xs text-slate-400">Try searching for a different item.</p>
             <button
               onClick={() => {
                 setSelectedCategory('all');
                 setSearchQuery('');
               }}
-              className="mt-2 bg-[#0A0D1A] text-white text-xs px-4 py-2 rounded-full font-semibold"
+              className="mt-2 bg-[#00022C] text-white text-xs px-4 py-2 rounded-full font-semibold"
             >
               Show All Menu
             </button>
@@ -154,7 +154,7 @@ export const MenuSection: React.FC = () => {
 
                     {/* Primary Tag Badge */}
                     {item.tags && item.tags.length > 0 && (
-                      <span className="absolute top-1.5 left-1.5 bg-[#0A0D1A]/90 backdrop-blur-md text-[#C5A059] border border-[#C5A059]/30 text-[9px] font-extrabold px-1.5 py-0.5 rounded-md shadow-sm tracking-wider uppercase">
+                      <span className="absolute top-1.5 left-1.5 bg-[#00022C]/90 backdrop-blur-md text-[#C5A059] border border-[#C5A059]/40 text-[9px] font-extrabold px-1.5 py-0.5 rounded-md shadow-sm tracking-wider uppercase">
                         {item.tags[0]}
                       </span>
                     )}
@@ -172,7 +172,7 @@ export const MenuSection: React.FC = () => {
                   <div className="flex-1 flex flex-col justify-between min-w-0 py-0.5 space-y-1.5">
                     <div>
                       <div className="flex items-start justify-between gap-1">
-                        <h3 className="font-extrabold text-[#0A0D1A] text-sm sm:text-base group-hover:text-[#C5A059] transition-colors leading-snug truncate tracking-tight">
+                        <h3 className="font-extrabold text-[#00022C] text-sm sm:text-base group-hover:text-[#C5A059] transition-colors leading-snug truncate tracking-tight">
                           {item.title}
                         </h3>
                       </div>
@@ -188,37 +188,37 @@ export const MenuSection: React.FC = () => {
                       </p>
                     </div>
 
-                    {/* Price & Consistent Fixed-Width Action Button Row */}
+                    {/* Price & Brand-Colored Action Button Row */}
                     <div className="flex items-center justify-between pt-1">
                       <div className="flex items-baseline gap-1">
                         <span className="text-[10px] font-bold uppercase text-slate-400 tracking-wider">QAR</span>
-                        <span className="font-extrabold text-[#0A0D1A] text-base sm:text-lg font-mono">
+                        <span className="font-extrabold text-[#00022C] text-base sm:text-lg font-mono">
                           {item.price}
                         </span>
                       </div>
 
-                      {/* Action Button Container - Fixed Width (96px) & Height (32px) for Consistent Sizing */}
+                      {/* Action Button Container - Brand Color #00022C & Gold #C5A059 */}
                       <div className="w-[96px] h-8 flex justify-end shrink-0">
                         {totalQty > 0 ? (
                           <div
                             onClick={(e) => e.stopPropagation()}
-                            className="w-full h-full flex items-center justify-between bg-[#0A0D1A] text-white rounded-full p-1 border border-[#C5A059]/40 shadow-sm animate-fade-in"
+                            className="w-full h-full flex items-center justify-between bg-[#00022C] text-white rounded-full p-1 border border-[#C5A059]/40 shadow-sm animate-fade-in"
                           >
                             <button
                               onClick={(e) => handleDecrement(e, item)}
-                              className="w-6 h-6 rounded-full bg-[#1A223D] hover:bg-[#253054] text-[#C5A059] flex items-center justify-center transition active:scale-90 shrink-0"
+                              className="w-6 h-6 rounded-full bg-[#11174D] hover:bg-[#1D277A] text-[#C5A059] flex items-center justify-center transition active:scale-90 shrink-0"
                               title="Decrease quantity"
                             >
                               <Minus className="w-3 h-3" />
                             </button>
                             
-                            <span className="text-xs font-mono font-extrabold text-amber-200 text-center flex-1">
+                            <span className="text-xs font-mono font-extrabold text-[#C5A059] text-center flex-1">
                               {totalQty}
                             </span>
 
                             <button
                               onClick={(e) => handleIncrement(e, item)}
-                              className="w-6 h-6 rounded-full bg-[#1A223D] hover:bg-[#253054] text-[#C5A059] flex items-center justify-center transition active:scale-90 shrink-0"
+                              className="w-6 h-6 rounded-full bg-[#11174D] hover:bg-[#1D277A] text-[#C5A059] flex items-center justify-center transition active:scale-90 shrink-0"
                               title="Increase quantity"
                             >
                               <Plus className="w-3 h-3" />
@@ -234,7 +234,7 @@ export const MenuSection: React.FC = () => {
                                 addToCart(item, 1);
                               }
                             }}
-                            className="w-full h-full flex items-center justify-center gap-1 bg-[#0A0D1A] group-hover:bg-[#19213D] text-white text-xs font-bold rounded-full shadow-sm transition active:scale-95 tracking-wide"
+                            className="w-full h-full flex items-center justify-center gap-1 bg-[#00022C] hover:bg-[#11174D] text-white text-xs font-bold rounded-full shadow-sm transition active:scale-95 tracking-wide"
                           >
                             <Plus className="w-3.5 h-3.5 text-[#C5A059] shrink-0" />
                             <span className="truncate">{item.customizations ? 'Option' : 'Add'}</span>

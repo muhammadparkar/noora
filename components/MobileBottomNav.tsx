@@ -19,7 +19,6 @@ export const MobileBottomNav: React.FC = () => {
 
   const activeOrder = activeOrders[0];
 
-  // Active tab calculations - tab only highlights when customer is actually viewing that page/modal
   const isCartActive = isCartOpen;
   const isTrackerActive = isOrderTrackerOpen;
   const isBranchesActive = isBranchesOpen;
@@ -28,8 +27,8 @@ export const MobileBottomNav: React.FC = () => {
   return (
     <div className="fixed bottom-0 left-0 right-0 z-50 sm:hidden block pointer-events-auto">
       
-      {/* Floating Sticky Quick Cart Bar (Appears when cart has items on mobile) */}
-      {cartItemCount > 0 && !isCartOpen && !isCheckoutOpenModal(isCartOpen) && (
+      {/* Floating Sticky Quick Cart Bar */}
+      {cartItemCount > 0 && !isCartOpen && (
         <div className="max-w-md mx-auto px-4 pb-2">
           <button
             onClick={() => {
@@ -37,7 +36,7 @@ export const MobileBottomNav: React.FC = () => {
               setIsBranchesOpen(false);
               setIsCartOpen(true);
             }}
-            className="w-full bg-[#0A0D1A] text-white p-3.5 rounded-2xl shadow-2xl border border-[#2B355E] flex items-center justify-between transition-all active:scale-98 animate-slide-up"
+            className="w-full bg-[#00022C] text-white p-3.5 rounded-2xl shadow-2xl border border-[#1F275C] flex items-center justify-between transition-all active:scale-98 animate-slide-up"
           >
             <div className="flex items-center gap-3">
               <div className="w-8 h-8 rounded-full bg-[#C5A059] text-black font-bold text-xs flex items-center justify-center font-mono">
@@ -59,11 +58,11 @@ export const MobileBottomNav: React.FC = () => {
         </div>
       )}
 
-      {/* Always Sticky Native App Bottom Navigation Bar for Mobile */}
-      <div className="bg-[#0A0D1A] border-t border-[#1E2540] text-slate-400 py-2.5 px-3 shadow-2xl">
+      {/* Always Sticky Native App Bottom Navigation Bar for Mobile in Brand Color #00022C */}
+      <div className="bg-[#00022C] border-t border-[#141A45] text-slate-400 py-2.5 px-3 shadow-2xl">
         <div className="flex items-center justify-around text-center max-w-md mx-auto">
           
-          {/* Menu Tab - Only highlights when user is on the Menu page */}
+          {/* Menu Tab */}
           <button
             onClick={() => {
               setIsCartOpen(false);
@@ -80,7 +79,7 @@ export const MobileBottomNav: React.FC = () => {
             <span className="text-[10px] font-semibold">Menu</span>
           </button>
 
-          {/* Cart Tab - Only highlights when Cart drawer is open */}
+          {/* Cart Tab */}
           <button
             onClick={() => {
               setIsOrderTrackerOpen(false);
@@ -102,7 +101,7 @@ export const MobileBottomNav: React.FC = () => {
             )}
           </button>
 
-          {/* Active Order Tracker Tab - Only highlights when Tracker modal is open */}
+          {/* Active Order Tracker Tab */}
           <button
             onClick={() => {
               setIsCartOpen(false);
@@ -121,7 +120,7 @@ export const MobileBottomNav: React.FC = () => {
             </span>
           </button>
 
-          {/* Branches Tab - Only highlights when Branches modal is open */}
+          {/* Branches Tab */}
           <button
             onClick={() => {
               setIsCartOpen(false);
@@ -143,8 +142,3 @@ export const MobileBottomNav: React.FC = () => {
     </div>
   );
 };
-
-// Helper for cart bar condition
-function isCheckoutOpenModal(isCartOpen: boolean) {
-  return isCartOpen;
-}

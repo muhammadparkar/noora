@@ -3,14 +3,14 @@
 
 @layer base {
   :root {
-    --noora-navy: #0A0D1A;
-    --noora-navy-light: #161B33;
-    --noora-navy-card: #11162B;
+    --noora-navy: #00022C;
+    --noora-navy-light: #0D113B;
+    --noora-navy-card: #050821;
     --noora-cream: #FAF8F5;
     --noora-ivory: #F0ECE1;
     --noora-gold: #C5A059;
     --noora-gold-light: #E5C583;
-    --noora-text: #0A0D1A;
+    --noora-text: #00022C;
     --noora-text-muted: #5B6275;
   }
 

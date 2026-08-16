@@ -9,7 +9,7 @@ export const Footer: React.FC = () => {
   const { setSelectedBranch, setIsBranchesOpen, setHasSelectedBranch } = useOrder();
 
   return (
-    <footer className="bg-[#060914] text-white border-t border-[#18203B] pt-12 pb-24 sm:pb-12">
+    <footer className="bg-[#00022C] text-white border-t border-[#141A45] pt-12 pb-24 sm:pb-12">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
         
         <div className="grid grid-cols-1 md:grid-cols-12 gap-8 lg:gap-12">
@@ -71,7 +71,7 @@ export const Footer: React.FC = () => {
               </ul>
             </div>
 
-            <div className="space-y-1.5 text-xs text-slate-300 font-light pt-2 border-t border-[#18203B]">
+            <div className="space-y-1.5 text-xs text-slate-300 font-light pt-2 border-t border-[#141A45]">
               <p className="flex items-center gap-2">
                 <Phone className="w-3.5 h-3.5 text-[#C5A059]" />
                 <span>Phone: +974 3068 2006 / +974 4000 1333</span>
@@ -84,13 +84,13 @@ export const Footer: React.FC = () => {
 
             {/* Social Icons */}
             <div className="flex items-center gap-3 pt-2">
-              <a href="#" className="w-8 h-8 rounded-full bg-[#141B33] hover:bg-[#C5A059] hover:text-black transition flex items-center justify-center text-slate-300" title="Website">
+              <a href="#" className="w-8 h-8 rounded-full bg-[#0D123D] hover:bg-[#C5A059] hover:text-black transition flex items-center justify-center text-slate-300" title="Website">
                 <Globe className="w-4 h-4" />
               </a>
-              <a href="#" className="w-8 h-8 rounded-full bg-[#141B33] hover:bg-[#C5A059] hover:text-black transition flex items-center justify-center text-slate-300" title="Social">
+              <a href="#" className="w-8 h-8 rounded-full bg-[#0D123D] hover:bg-[#C5A059] hover:text-black transition flex items-center justify-center text-slate-300" title="Social">
                 <Share2 className="w-4 h-4" />
               </a>
-              <a href="#" className="w-8 h-8 rounded-full bg-[#141B33] hover:bg-[#C5A059] hover:text-black transition flex items-center justify-center text-slate-300" title="Contact">
+              <a href="#" className="w-8 h-8 rounded-full bg-[#0D123D] hover:bg-[#C5A059] hover:text-black transition flex items-center justify-center text-slate-300" title="Contact">
                 <MessageCircle className="w-4 h-4" />
               </a>
             </div>
@@ -99,7 +99,7 @@ export const Footer: React.FC = () => {
         </div>
 
         {/* Bottom Copyright */}
-        <div className="pt-6 border-t border-[#18203B] text-center text-[11px] text-slate-500">
+        <div className="pt-6 border-t border-[#141A45] text-center text-[11px] text-slate-500">
           <p>Copyright © 2025 Noora Cafe. All Rights Reserved.</p>
         </div>
 

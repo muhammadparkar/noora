@@ -38,11 +38,10 @@ export const CafeSelectionScreen: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-[#FAF8F5] text-[#0A0D1A] flex flex-col font-sans">
+    <div className="min-h-screen bg-[#FAF8F5] text-[#00022C] flex flex-col font-sans">
       
-      {/* Main Brand Navigation Header - Pure Noora Navy Style */}
-      <header className="bg-[#0A0D1A] text-white py-5 px-6 border-b border-[#1E2540] shadow-md flex items-center justify-center relative z-20">
-        {/* Central Brand Logo */}
+      {/* Header - Brand Color #00022C */}
+      <header className="bg-[#00022C] text-white py-5 px-6 border-b border-[#141A45] shadow-md flex items-center justify-center relative z-20">
         <a href="#" className="flex flex-col items-center group">
           <div className="flex items-center gap-1.5">
             <span className="text-2xl sm:text-3xl font-extrabold tracking-[0.25em] text-white group-hover:text-amber-200 transition">
@@ -63,15 +62,15 @@ export const CafeSelectionScreen: React.FC = () => {
         
         {/* Ambient Glows */}
         <div className="absolute top-0 right-0 w-96 h-96 bg-[#C5A059]/10 rounded-full blur-3xl pointer-events-none" />
-        <div className="absolute bottom-0 left-0 w-80 h-80 bg-[#0A0D1A]/5 rounded-full blur-2xl pointer-events-none" />
+        <div className="absolute bottom-0 left-0 w-80 h-80 bg-[#00022C]/5 rounded-full blur-2xl pointer-events-none" />
 
         {/* Heading Section */}
         <div className="text-center max-w-lg mx-auto mb-8 space-y-2 relative z-10">
-          <div className="inline-flex items-center gap-2 bg-[#0A0D1A] text-white text-xs px-3.5 py-1 rounded-full border border-[#2B355E]">
+          <div className="inline-flex items-center gap-2 bg-[#00022C] text-white text-xs px-3.5 py-1 rounded-full border border-[#1C2359]">
             <Sparkles className="w-3.5 h-3.5 text-[#C5A059]" />
             <span className="font-semibold text-amber-200 tracking-wide">STORE PICKUP PORTAL</span>
           </div>
-          <h1 className="text-3xl sm:text-4xl font-extrabold text-[#0A0D1A] font-serif tracking-tight">
+          <h1 className="text-3xl sm:text-4xl font-extrabold text-[#00022C] font-serif tracking-tight">
             Select Your Pickup Location
           </h1>
           <p className="text-slate-600 text-xs sm:text-sm max-w-sm mx-auto">
@@ -89,7 +88,7 @@ export const CafeSelectionScreen: React.FC = () => {
             >
               {/* Left Marker Pin Container */}
               <div className="bg-[#FAF8F5] p-4 flex items-center justify-center border-b sm:border-b-0 sm:border-r border-[#EDE7DB] shrink-0">
-                <div className="w-12 h-12 rounded-xl bg-[#0A0D1A] text-[#C5A059] flex items-center justify-center shadow-sm group-hover:scale-110 transition-transform">
+                <div className="w-12 h-12 rounded-xl bg-[#00022C] text-[#C5A059] flex items-center justify-center shadow-sm group-hover:scale-110 transition-transform">
                   <MapPin className="w-6 h-6" />
                 </div>
               </div>
@@ -99,11 +98,11 @@ export const CafeSelectionScreen: React.FC = () => {
                 <div>
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-2">
-                      <h3 className="font-extrabold text-[#0A0D1A] text-base sm:text-lg group-hover:text-[#C5A059] transition-colors">
+                      <h3 className="font-extrabold text-[#00022C] text-base sm:text-lg group-hover:text-[#C5A059] transition-colors">
                         {branch.name}
                       </h3>
                       {branch.isPopular && (
-                        <span className="bg-[#0A0D1A] text-amber-200 text-[10px] font-semibold px-2 py-0.5 rounded-full">
+                        <span className="bg-[#00022C] text-amber-200 text-[10px] font-semibold px-2 py-0.5 rounded-full">
                           Popular
                         </span>
                       )}
@@ -112,7 +111,7 @@ export const CafeSelectionScreen: React.FC = () => {
                   </div>
 
                   {branch.nameAr && (
-                    <p className="text-xs font-semibold text-slate-400 font-serif pt-0.5">
+                    <p className="text-xs font-semibold text-slate-400 font-arabic pt-0.5">
                       {branch.nameAr}
                     </p>
                   )}
@@ -130,7 +129,7 @@ export const CafeSelectionScreen: React.FC = () => {
               </div>
 
               {/* Right Storefront Image Thumbnail & Traffic Badge */}
-              <div className="w-full sm:w-40 h-32 sm:h-auto relative shrink-0 bg-slate-900 flex flex-col justify-between overflow-hidden">
+              <div className="w-full sm:w-40 h-32 sm:h-auto relative shrink-0 bg-[#00022C] flex flex-col justify-between overflow-hidden">
                 <img
                   src={branch.illustration || 'https://images.unsplash.com/photo-1554118811-1e0d58224f24?q=80&w=600&auto=format&fit=crop'}
                   alt={branch.name}
@@ -150,7 +149,7 @@ export const CafeSelectionScreen: React.FC = () => {
       </main>
 
       {/* Footer Bar */}
-      <footer className="bg-[#060914] text-white py-4 px-6 text-center text-xs font-light border-t border-[#18203B]">
+      <footer className="bg-[#00022C] text-white py-4 px-6 text-center text-xs font-light border-t border-[#141A45]">
         <p className="text-slate-400">
           Copyright © 2025 Noora Cafe. All Rights Reserved. | Store Pickup Portal
         </p>
